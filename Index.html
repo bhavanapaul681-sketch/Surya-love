@@ -1,1 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Surprise For You ❤️</title>
+    <style>
+        /* Mobile-friendly adaptive layout */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffeef2; 
+            background-image: radial-gradient(#ffcad4 20%, transparent 20%),
+                              radial-gradient(#ffcad4 20%, transparent 20%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px; 
+            font-family: 'Georgia', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+        }
 
+        .instruction {
+            font-size: 16px;
+            color: #ff4d6d;
+            margin-bottom: 20px;
+            font-weight: bold;
+            animation: blink 1.5s infinite;
+            text-align: center;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .envelope-wrapper:hover {
+            transform: scale(1.05); 
+        }
+
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background-color: #ff4d6d; 
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #ff758f; 
+            transform-origin: top;
+            transition: transform 0.4s ease-in-out;
+            z-index: 3;
+        }
+
+        .heart {
+            position: absolute;
+            top: 100px;
+            left: 145px;
+            width: 30px;
+            height: 30px;
+            background-color: #fff;
+            transform: rotate(-45deg);
+            z-index: 4;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            box-shadow: -2px 5px 10px rgba(0,0,0,0.1);
+        }
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 50%;
+        }
+        .heart::before { top: -15px; left: 0; }
+        .heart::after { left: 15px; top: 0; }
+
+        .letter {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            width: 290px;
+            height: 190px;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.5s ease-in-out, top 0.5s ease-in-out, z-index 0s 0.2s;
+            z-index: 1;
+            text-align: center;
+            color: #4a4a4a;
+            font-size: 13px;
+            line-height: 1.4;
+            overflow-y: auto; /* Allows vertical scrolling for lots of content */
+        }
+        
+        .letter h2 {
+            margin: 0 0 8px 0;
+            color: #ff4d6d;
+            font-size: 16px;
+        }
+
+        .couple-pics {
+            width: 95%;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin: 8px 0;
+            border: 2px solid #ffcad4;
+        }
+
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg); 
+            z-index: 1;
+        }
+        
+        .envelope-wrapper.open .heart {
+            opacity: 0;
+            transform: scale(0) rotate(-45deg); 
+        }
+        
+        .envelope-wrapper.open .letter {
+            transform: translateY(-160px) scale(1.05); 
+            z-index: 5;
+            height: 360px; /* Tall box layout to hold photos */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="instruction">💌 Click on the heart to open your letter!</div>
+
+    <div class="envelope-wrapper" onclick="openLetter()">
+        <div class="envelope">
+            <div class="heart"></div>
+        </div>
+        
+        <div class="letter">
+            <h2>For My Favorite Person ❤️</h2>
+            <p>Happy Boyfriend Day! I wanted to build a little digital surprise just for you.</p>
+            
+            <!-- 📸 IMAGE 1 -->
+            <img class="couple-pics" src="pic1.jpg" alt="Our First Memory">
+            
+            <p>Thank you for stepping into my world and making everything so bright and beautiful. 🎀✨</p>
+            
+            <!-- 📸 IMAGE 2 -->
+            <img class="couple-pics" src="pic2.jpg" alt="Another Happy Moment">
+
+            <p style="font-family: 'Courier New', monospace; font-weight: bold; margin-top: 10px; color: #ff758f;">Forever Yours, xoxo</p>
+        </div>
+    </div>
+
+    <!-- 🎵 BACKGROUND MUSIC TRACK -->
+    <audio id="loveMusic" loop>
+        <source src="song.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        function openLetter() {
+            const wrapper = document.querySelector('.envelope-wrapper');
+            const music = document.getElementById('loveMusic');
+            const instruction = document.querySelector('.instruction');
+            
+            wrapper.classList.toggle('open');
+            
+            if (wrapper.classList.contains('open')) {
+                music.play().catch(error => {
+                    console.log("Audio playback blocked:", error);
+                });
+                instruction.innerHTML = "✨ Surprise! ✨";
+                instruction.style.animation = "none";
+            } else {
+                music.pause();
+                instruction.innerHTML = "💌 Click on the heart to open your letter!";
+            }
+        }
+    </script>
+
+</body>
+  </html>
+      
